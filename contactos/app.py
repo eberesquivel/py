@@ -38,23 +38,33 @@ def add_contacto():
 @app.route('/edit_contacto/<string:id>')
 def get_contacto(id):
     cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM contactos WHERE id = %s',(id))
+    cur.execute('SELECT * FROM contactos WHERE id = %s',(id,))
     data = cur.fetchall()
-    return render_template('edita_contacto.html',contacto = data[0])
+    return render_template('edit_contacto.html',contacto = data[0])
 
-@app.route('/update/<id>')
+@app.route('/update/<id>' ,methods=['POST'])
 def update_contacto(id):
-    cur = mysql.connection.cursor()
-    cur.execute(""" 
-     UPDATE contactos
-     SET fullname = %s
-         phone = %s
-         email= %s
-        social= %s
-    WHERE id = %s
-    """,(fullname,phone,email,social,id))
-    flash('Contacto actualizado satisfactoriamente')
-    return redirect(url_for('Inicio'))        
+    if request.method == 'POST':
+        fullname = request.form['fullname']
+        phone = request.form['phone']
+        email = request.form['email']
+        social = request.form['social']
+        cur = mysql.connection.cursor()
+
+        cur.execute("""
+         UPDATE contactos
+         SET fullname = %s,
+             phone = %s,
+             email = %s,
+             social = %s
+         WHERE id = %s
+        """,(fullname, phone , email ,social ,id))
+        flash('Contacto actualizado satisfactoriamente')
+        mysql.connection.commit()
+        return redirect(url_for('Inicio'))    
+    
+
+    
 
 
 @app.route('/delete_contacto/<string:id>')

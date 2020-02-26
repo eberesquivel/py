@@ -1,43 +1,70 @@
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for message in messages %}
-    <p>{{ message }}</p>
-{% endfor %}
-{% endif %}
-{% endwith %}
-<form action="/add_contacto" method="POST" >
-    <input type="text" name="fullname" placeholder="Nombre Completo">
-    <input type="text" name="phone" placeholder="Telefono">
-    <input type="text" name="email" placeholder="email">
-    <input type="text" name="social" placeholder="social">
+{% extends 'layout.html' %}
+{% block body%}
 
-    <button type="submit">Guardar</button>
-</form>
-
-<table>
-    <thead>
-        <tr>
-            <td>Nombre Completo</td>
-            <td>Telefono</td>
-            <td>Email</td>
-            <td>Social</td>
-            <td>Operaciones</td>
-        </tr>
-    </thead>
+<div class=row>
+    <div class="col-md-5">
         
-    <tbody>
-        {% for contacto in contactos %}
-        <tr>
-            <td>{{contacto.1}}</td>
-            <td>{{contacto.2}}</td>
-            <td>{{contacto.3}}</td>
-            <td>{{contacto.4}}</td>
-            <td>
-                <a href="/edit_contacto/{{contacto.0}}">Editar</a>
-                <a href="/delete_contacto/{{contacto.0}}">Borrar</a>
-            </td>
-        </tr>
-
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+            
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading "><strong>{{ message }}</strong></h4>
+                
+                <hr>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                <p class="mb-0">{{ message }}</p>
+              </div>
         {% endfor %}
-    </tbody>
-</table>
+        {% endif %}
+        {% endwith %}
+
+        <div class="card card-body">
+            <form action="/add_contacto" method="POST" >
+                <input type="text" name="fullname" placeholder="Nombre Completo">
+                <input type="text" name="phone" placeholder="Telefono">
+                <input type="text" name="email" placeholder="email">
+                <input type="text" name="social" placeholder="social">
+            
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <table class="table table-striped table-bordered bg-white table-sm">
+            <thead>
+                <tr>
+                    <td>Nombre Completo</td>
+                    <td>Telefono</td>
+                    <td>Email</td>
+                    <td>Social</td>
+                    <td>Operaciones</td>
+                </tr>
+            </thead>
+                
+            <tbody>
+                {% for contacto in contactos %}
+                <tr>
+                    <td>{{contacto.1}}</td>
+                    <td>{{contacto.2}}</td>
+                    <td>{{contacto.3}}</td>
+                    <td>{{contacto.4}}</td>
+                    <td>
+                        <a href="/edit_contacto/{{contacto.0}}" class="btn btn-secondary">Editar</a>
+                        <a href="/delete_contacto/{{contacto.0}}" class="btn btn-danger">Borrar</a>
+                    </td>
+                </tr>
+        
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+</div>
+
+
+
+
+{% endblock%}
