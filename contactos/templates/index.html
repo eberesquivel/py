@@ -7,10 +7,10 @@
         {% with messages = get_flashed_messages() %}
         {% if messages %}
         {% for message in messages %}
-            
+
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <h4 class="alert-heading "><strong>{{ message }}</strong></h4>
-                
+
                 <hr>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -23,12 +23,14 @@
 
         <div class="card card-body">
             <form action="/add_contacto" method="POST" >
-                <input type="text" name="fullname" placeholder="Nombre Completo">
-                <input type="text" name="phone" placeholder="Telefono">
-                <input type="text" name="email" placeholder="email">
-                <input type="text" name="social" placeholder="social">
+                <div class="form-group"> <input type="text" name="fullname" placeholder="Nombre Completo" class="form-control"></div>
+                <div class="form-group"> <input type="text" name="phone" placeholder="Telefono" class="form-control"></div>
+                <div class="form-group"> <input type="text" name="email" placeholder="email"  class="form-control"> </div>
+                <div class="form-group"> <input type="text" name="social" placeholder="social"  class="form-control"> </div>
+                <div class="form-group"> <button type="submit" class="btn btn-primary btn-block">Guardar</button></div>
+                
             
-                <button type="submit">Guardar</button>
+                
             </form>
         </div>
     </div>
@@ -53,7 +55,7 @@
                     <td>{{contacto.4}}</td>
                     <td>
                         <a href="/edit_contacto/{{contacto.0}}" class="btn btn-secondary">Editar</a>
-                        <a href="/delete_contacto/{{contacto.0}}" class="btn btn-danger">Borrar</a>
+                        <a href="/delete_contacto/{{contacto.0}}" class="btn btn-danger btn-delete">Borrar</a>
                     </td>
                 </tr>
         
